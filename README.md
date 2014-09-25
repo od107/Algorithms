@@ -1,3 +1,3 @@
 Algorithms
 ==========
-Programming exercises for coursera course "Algortihms part I" 
+Programming exercises for coursera course "Algorithms part I" 
