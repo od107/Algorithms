@@ -1,0 +1,484 @@
+Assessment Summary
+
+Compilation:  PASSED
+Style:        FAILED
+Findbugs:     No potential bugs found.
+API:          PASSED
+
+Correctness:  21/24 tests passed
+Memory:       8/8 tests passed
+Timing:       9/9 tests passed
+
+Raw score: 91.88% [Correctness: 65%, Memory: 10%, Timing: 25%, Style: 0%]
+
+Assessment Details
+
+The following files were submitted:
+----------------------------------
+total 12K
+-rw-r--r-- 1 2.0K Sep 25 10:36 Percolation.java
+-rw-r--r-- 1 1.8K Sep 25 10:36 PercolationStats.java
+-rw-r--r-- 1 1.7K Sep 25 10:36 studentSubmission.zip
+
+
+******************************************************************************
+*  compiling
+******************************************************************************
+
+
+% javac Percolation.java
+*-----------------------------------------------------------
+================================================================
+
+% javac PercolationStats.java
+*-----------------------------------------------------------
+================================================================
+
+
+
+% checkstyle *.java
+*-----------------------------------------------------------
+Percolation.java:5:1: File contains tab characters (this is the first instance).
+Percolation.java:13:25: '<=' is not preceded with whitespace.
+Percolation.java:13:27: '<=' is not followed by whitespace.
+Percolation.java:15:26: '=' is not preceded with whitespace.
+Percolation.java:15:27: '=' is not followed by whitespace.
+Percolation.java:26:34: '=' is not preceded with whitespace.
+Percolation.java:28:22: 'if' is not followed by whitespace.
+Percolation.java:28:24: '==' is not preceded with whitespace.
+Percolation.java:28:26: '==' is not followed by whitespace.
+Percolation.java:29:47: ',' is not followed by whitespace.
+Percolation.java:30:22: 'if' is not followed by whitespace.
+Percolation.java:30:24: '==' is not preceded with whitespace.
+Percolation.java:30:26: '==' is not followed by whitespace.
+Percolation.java:31:47: ',' is not followed by whitespace.
+Percolation.java:34:22: 'if' is not followed by whitespace.
+Percolation.java:34:24: '>' is not preceded with whitespace.
+Percolation.java:34:25: '>' is not followed by whitespace.
+Percolation.java:34:41: ',' is not followed by whitespace.
+Percolation.java:35:47: ',' is not followed by whitespace.
+Percolation.java:35:62: ',' is not followed by whitespace.
+Percolation.java:36:22: 'if' is not followed by whitespace.
+Percolation.java:36:24: '<' is not preceded with whitespace.
+Percolation.java:36:25: '<' is not followed by whitespace.
+Percolation.java:36:41: ',' is not followed by whitespace.
+Percolation.java:37:47: ',' is not followed by whitespace.
+Percolation.java:37:62: ',' is not followed by whitespace.
+Percolation.java:38:22: 'if' is not followed by whitespace.
+Percolation.java:38:24: '>' is not preceded with whitespace.
+Percolation.java:38:25: '>' is not followed by whitespace.
+Percolation.java:38:39: ',' is not followed by whitespace.
+Percolation.java:39:47: ',' is not followed by whitespace.
+Percolation.java:39:60: ',' is not followed by whitespace.
+Percolation.java:40:22: 'if' is not followed by whitespace.
+Percolation.java:40:24: '<' is not preceded with whitespace.
+Percolation.java:40:25: '<' is not followed by whitespace.
+Percolation.java:41:47: ',' is not followed by whitespace.
+Percolation.java:41:60: ',' is not followed by whitespace.
+Percolation.java:44:47: '{' is not preceded with whitespace.
+Percolation.java:54:45: ',' is not followed by whitespace.
+Percolation.java:54:54: ',' is not followed by whitespace.
+Percolation.java:64:44: '{' is not preceded with whitespace.
+PercolationStats.java:3:1: File contains tab characters (this is the first instance).
+PercolationStats.java:6:41: '{' is not preceded with whitespace.
+PercolationStats.java:8:14: 'if' is not followed by whitespace.
+PercolationStats.java:8:16: '<=' is not preceded with whitespace.
+PercolationStats.java:8:18: '<=' is not followed by whitespace.
+PercolationStats.java:8:24: '<=' is not preceded with whitespace.
+PercolationStats.java:8:26: '<=' is not followed by whitespace.
+PercolationStats.java:10:18: '=' is not preceded with whitespace.
+PercolationStats.java:10:19: '=' is not followed by whitespace.
+PercolationStats.java:14:15: 'for' is not followed by whitespace.
+PercolationStats.java:14:21: '=' is not preceded with whitespace.
+PercolationStats.java:14:22: '=' is not followed by whitespace.
+PercolationStats.java:14:26: '<' is not preceded with whitespace.
+PercolationStats.java:14:27: '<' is not followed by whitespace.
+PercolationStats.java:14:29: ';' is not followed by whitespace.
+PercolationStats.java:14:33: '{' is not preceded with whitespace.
+PercolationStats.java:15:30: '=' is not preceded with whitespace.
+PercolationStats.java:15:31: '=' is not followed by whitespace.
+PercolationStats.java:20:22: 'if' is not followed by whitespace.
+PercolationStats.java:20:42: '{' is not preceded with whitespace.
+PercolationStats.java:21:40: ',' is not followed by whitespace.
+PercolationStats.java:25:39: 'cast' is not followed by whitespace.
+PercolationStats.java:32:26: '{' is not preceded with whitespace.
+PercolationStats.java:41:32: '{' is not preceded with whitespace.
+PercolationStats.java:47:63: ',' is not followed by whitespace.
+================================================================
+
+
+% findbugs *.class
+*-----------------------------------------------------------
+================================================================
+
+
+Testing the APIs of your programs.
+*-----------------------------------------------------------
+Percolation:
+
+PercolationStats:
+
+================================================================
+
+
+******************************************************************************
+*  executing
+******************************************************************************
+
+Testing methods in Percolation
+*-----------------------------------------------------------
+Running 14 total tests.
+
+Tests 1 through 7 create a Percolation object using your code, then repeatedly
+open sites using open(i, j). After each call to open(), we check that isFull(),
+isOpen(), and percolates() return the correct values.
+
+Test 1: Open predetermined list of sites using files
+  *  filename = input6.txt
+  *  filename = input8.txt
+  *  filename = input8-no.txt
+  *  filename = input10-no.txt
+  *  filename = greeting57.txt
+  *  filename = heart25.txt
+==> passed
+
+Test 2: Open random sites until system percolates (then test is terminated)
+  *  N = 3
+  *  N = 5
+  *  N = 10
+  *  N = 10
+  *  N = 20
+  *  N = 20
+  *  N = 50
+  *  N = 50
+==> passed
+
+Test 3: Opens predetermined sites for N = 1 and N = 2 (corner case test)
+  *  filename = input1.txt
+  *  filename = input1-no.txt
+  *  filename = input2.txt
+  *  filename = input2-no.txt
+==> passed
+
+Test 4: Check for backwash with predetermined sites
+  *  filename = input20.txt
+     isFull(18, 1) returns wrong value [after 231 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = input10.txt
+     isFull(9, 1) returns wrong value [after 56 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = input50.txt
+     isFull(22, 28) returns wrong value [after 1412 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = sedgewick60.txt
+     isFull(21, 59) returns wrong value [after 1577 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = michael61.txt
+     isFull(25, 43) returns wrong value [after 1491 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = jerry47.txt
+     isFull(11, 47) returns wrong value [after 1076 total calls to open()]
+     - student   = true
+     - reference = false
+==> FAILED
+
+Test 5: Check for backwash with predetermined sites that have
+        multiple percolating paths
+  *  filename = input3.txt
+     isFull(3, 1) returns wrong value [after 4 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = input4.txt
+     isFull(4, 4) returns wrong value [after 7 total calls to open()]
+     - student   = true
+     - reference = false
+  *  filename = input7.txt
+     isFull(6, 1) returns wrong value [after 12 total calls to open()]
+     - student   = true
+     - reference = false
+==> FAILED
+
+Test 6: Predetermined sites with very long percolating path
+  *  filename = snake13.txt
+  *  filename = snake101.txt
+==> passed
+
+Test 7: Opens every site
+  *  filename = input5.txt
+==> passed
+
+Test 8: Check whether exception is called if (i, j) are out of bounds
+  *  N = 10, (i, j) = (0, 6)
+  *  N = 10, (i, j) = (12, 6)
+  *  N = 10, (i, j) = (11, 6)
+  *  N = 10, (i, j) = (6, 0)
+  *  N = 10, (i, j) = (6, 12)
+  *  N = 10, (i, j) = (6, 11)
+==> passed
+
+Test 9: Check that IllegalArgumentException is thrown if N <= 0 in constructor
+  *  N = -10
+  *  N = -1
+  *  N = 0
+==> passed
+
+Test 10: Create multiple Percolation objects at the same time
+         (to make sure you didn't store data in static variables)
+==> passed
+
+Test 11: Open predetermined list of sites using file
+         but change the order in which methods are called
+  *  filename = input8.txt;  order =     isFull(),     isOpen(), percolates()
+  *  filename = input8.txt;  order =     isFull(), percolates(),     isOpen()
+  *  filename = input8.txt;  order =     isOpen(),     isFull(), percolates()
+  *  filename = input8.txt;  order =     isOpen(), percolates(),     isFull()
+  *  filename = input8.txt;  order = percolates(),     isOpen(),     isFull()
+  *  filename = input8.txt;  order = percolates(),     isFull(),     isOpen()
+==> passed
+
+Test 12: Call all methods in random order until just before system percolates
+  *  N = 3
+  *  N = 5
+  *  N = 7
+  *  N = 10
+  *  N = 20
+  *  N = 50
+==> passed
+
+Test 13: Call all methods in random order with inputs not prone to backwash
+  *  N = 3
+  *  N = 5
+  *  N = 7
+  *  N = 10
+  *  N = 20
+  *  N = 50
+==> passed
+
+Test 14: Call all methods in random order until all sites are open
+  *  N = 3
+  *  N = 5
+     isFull(5, 4) returns wrong value [after 14 total calls to open()]
+     - student   = true
+     - reference = false
+  *  N = 7
+     isFull(4, 6) returns wrong value [after 27 total calls to open()]
+     - student   = true
+     - reference = false
+  *  N = 10
+     isFull(7, 10) returns wrong value [after 61 total calls to open()]
+     - student   = true
+     - reference = false
+  *  N = 20
+     isFull(17, 19) returns wrong value [after 213 total calls to open()]
+     - student   = true
+     - reference = false
+  *  N = 50
+     isFull(45, 50) returns wrong value [after 1582 total calls to open()]
+     - student   = true
+     - reference = false
+==> FAILED
+
+
+Total: 11/14 tests passed!
+
+================================================================
+
+******************************************************************************
+*  executing PercolationStats with reference Percolation
+******************************************************************************
+
+Testing methods in PercolationStats
+*-----------------------------------------------------------
+Running 10 total tests.
+
+Test 1: Test that PercolateStats creates T Percolation objects, each of size N-by-N
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 2a: Test that PercolationStats calls open() until system percolates
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 2b: Test that PercolationStats does not call open() after system percolates
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 3: Test that mean() is consistent with the number of intercepted calls to open()
+  on blocked sites
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 4: Test that stddev() is consistent with the number of intercepted calls to open()
+  on blocked sites
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 5: Test that confidenceLo() and confidenceHigh() are consistent with mean() and stddev()
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 6: Check whether exception is thrown if either N or T is out of bounds
+  * N = -23, T =  42
+  * N =  23, T =   0
+  * N = -42, T =   0
+  * N =  42, T =  -1
+==> passed
+
+Test 7: Create two PercolationStats objects at the same time and check mean()
+        (to make sure you didn't store data in static variables)
+  * N1 =  50, T1 =  10, N2 =  50, T2 =   5
+  * N1 =  50, T1 =   5, N2 =  50, T2 =  10
+  * N1 =  50, T1 =  10, N2 =  25, T2 =  10
+  * N1 =  25, T1 =  10, N2 =  50, T2 =  10
+  * N1 =  50, T1 =  10, N2 =  15, T2 = 100
+  * N1 =  15, T1 = 100, N2 =  50, T2 =  10
+==> passed
+
+Test 8: Check that the methods return the same value, regardless of
+        the order in which they are called
+  * N =  20, T =  10
+  * N =  50, T =  20
+  * N = 100, T =  50
+  * N =  64, T = 150
+==> passed
+
+Test 9: Check distribution of number of sites opened until percolation
+  * N = 2, T = 100000
+  * N = 3, T = 100000
+  * N = 4, T = 100000
+==> passed
+
+
+Total: 10/10 tests passed!
+
+================================================================
+
+******************************************************************************
+*  memory usage
+******************************************************************************
+
+Computing memory of Percolation
+*-----------------------------------------------------------
+Running 4 total tests.
+
+Test 1a-1d: Check that total memory <= 17 N^2 + 128 N + 1024 bytes
+
+                 N        bytes
+--------------------------------------------
+=> passed       64        39088         
+=> passed      256       598192         
+=> passed      512      2375856         
+=> passed     1024      9470128         
+==> 4/4 tests passed
+
+
+Estimated student memory = 9.00 N^2 + 32.00 N + 176.00  (R^2 = 1.000)
+
+
+Test 2 (bonus): Check that total memory <= 11 N^2 + 128 N + 1024 bytes
+   -  bonus available only if solutions handles backwash
+==> FAILED
+
+
+Total: 4/4 tests passed!
+
+================================================================
+
+
+
+Computing memory of PercolationStats
+*-----------------------------------------------------------
+Running 4 total tests.
+
+Test 1a-1d: Memory usage as a function of T for N = 100
+            (max allowed: 8 T + 128 bytes)
+
+                 T        bytes
+--------------------------------------------
+=> passed       16          184         
+=> passed       32          312         
+=> passed       64          568         
+=> passed      128         1080         
+==> 4/4 tests passed
+
+
+Estimated student memory = 8.00 T + 56.00  (R^2 = 1.000)
+
+Total: 4/4 tests passed!
+
+================================================================
+
+
+
+******************************************************************************
+*  timing
+******************************************************************************
+
+Timing Percolation
+*-----------------------------------------------------------
+Running 9 total tests.
+
+Tests 1a-1e: Measuring runtime and counting calls to connected(), union() and
+             find() in WeightedQuickUnionUF.
+
+
+For each N, a percolation object is generated and sites are randomly opened
+until the system percolates. If you do not pass the correctness tests, these
+results may be meaningless.
+
+                                                 2 * connected()
+                 N   seconds       union()              + find()        constructor
+---------------------------------------------------------------------------------------------
+=> passed        8     0.00           66                   250                   1         
+=> passed       32     0.00          760                  3092                   1         
+=> passed      128     0.03        11294                 48006                   1         
+=> passed      512     0.14       185343                785726                   1         
+=> passed     1024     0.32       728916               3100964                   1         
+==> 5/5 tests passed
+
+Running time in seconds depends on the machine on which the script runs,
+and  varies each time that you submit. If one of the values in the table
+violates the performance limits, the factor by which you failed the test
+appears in parentheses. For example, (9.6x) in the union() column
+indicates that it uses 9.6x too many calls.
+
+
+Tests 2a-2d: This test checks whether you use a constant number of calls to
+union(), connected(), and find() per call to open(), isFull(), and percolates().
+The table below shows max(union(), connected(), find()) calls made during a
+single call to open(), isFull(), and percolates().
+
+                 N     per open()      per isOpen()    per isFull()    per percolates() 
+---------------------------------------------------------------------------------------------
+=> passed       32        4               0               1               1         
+=> passed      128        4               0               1               1         
+=> passed      512        4               0               1               1         
+=> passed     1024        4               0               1               1         
+==> 4/4 tests passed
+
+Total: 9/9 tests passed!
+================================================================
+
