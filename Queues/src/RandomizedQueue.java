@@ -1,7 +1,9 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-	
+	//easiest to make with a linked list, 
+	//otherwise expensive copy operations
 	
    public RandomizedQueue(){
 	   // construct an empty randomized queue
@@ -13,7 +15,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    }
    public int size(){
 	   // return the number of items on the queue
-	   
+
    }
    public void enqueue(Item item){
 	   // add the item
@@ -22,13 +24,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    }
    public Item dequeue(){
 	   // delete and return a random item
-//	   if empty list
-//	   throw new java.util.NoSuchElementException("List was empty");
+	   // use StdRandom.uniform(N)
+	   if(isEmpty())
+		   throw new NoSuchElementException("List was empty");
+	   
+	   
    }
    public Item sample() {
 	   // return (but do not delete) a random item
-//	   if empty list
-//	   throw new java.util.NoSuchElementException("List was empty");
+	   if(isEmpty())
+		   throw new NoSuchElementException("List was empty");
    }
    public Iterator<Item> iterator(){
 	   // return an independent iterator over items in random order
