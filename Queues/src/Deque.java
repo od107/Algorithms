@@ -152,7 +152,7 @@ public class Deque<Item> implements Iterable<Item> {
            if (!item.equals("-")) s.addLast(item);
            else if (!s.isEmpty()) StdOut.print(s.removeFirst() + " ");
        }
-       StdOut.println("(" + s.size() + " left on stack)");
+       StdOut.println("(" + s.size() + " left on deque)");
    }
    
 }
