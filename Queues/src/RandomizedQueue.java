@@ -41,7 +41,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		// use StdRandom.uniform(N)
 		if(isEmpty())
 			throw new NoSuchElementException("List was empty");
-		Item item = q[head++];
+		
+		Item item;
+		int itemNbr = StdRandom.uniform(size()) + head;
+		
+		if(itemNbr == tail-1)
+			item = q[--tail];
+		else if(itemNbr == head)
+			item = q[head++];
+		else{
+			item = q[itemNbr];
+			q[itemNbr] = q[--tail]; //move last item to empty spot
+		}
+			
 		if(size() <= capacity / 4)
 			resize(capacity / 2);
 		else if(isEmpty()){ //set pointers back to beginning, saves on resizes
@@ -123,13 +135,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	      RandomizedQueue<String> s = new RandomizedQueue<String>();
 	       while (!StdIn.isEmpty()) {
 	           String item = StdIn.readString();
-	           //error in this next part
+	           
 	           if (item.equals("-")) StdOut.print(s.dequeue() + " ");
 	           else if (item.equals("s")) StdOut.print(s.sample() + " ");
-	           else if (!s.isEmpty()) s.enqueue(item);
+	           else s.enqueue(item);
 
 	       } 
-	       StdOut.println("(" + s.size() + " left on queue)");
+	       StdOut.println("(" + s.size() + " left on random queue)");
 	   }
 	
 }
