@@ -7,6 +7,7 @@ public class Percolation {
 	private int top;
 	private int bottom;
 	private WeightedQuickUnionUF wuf;
+	private WeightedQuickUnionUF wuf2;
 		
 	   public Percolation(int N)  {
 		   // create N-by-N grid, with all sites blocked
@@ -17,6 +18,7 @@ public class Percolation {
 		   top = 0;
 		   bottom = N * N + 1;
 		   wuf = new WeightedQuickUnionUF(N * N + 2);
+		   wuf2 = new WeightedQuickUnionUF(N * N + 2);
 	   }
 	   
 	   public void open(int i, int j) {
@@ -24,22 +26,34 @@ public class Percolation {
 			   throw new IndexOutOfBoundsException("index i or j out of bounds");
 		   // open site (row i, column j) if it is not already
 		   grid[i-1][j-1]= true;
-		   
-		   if(i==1)
+
+		   if(i==1){
 			   wuf.union(getNbr(i,j), top);
-		   if(i==N)
+		   	   wuf2.union(getNbr(i,j), top);
+		   }
+		   if(i==N){
 			   wuf.union(getNbr(i,j), bottom);
-		   
+		   }
+
+
 		   //connect to neighbours if they're open
-		   if(i>1 && isOpen(i-1,j))
+		   if(i>1 && isOpen(i-1,j)){
 			   wuf.union(getNbr(i,j), getNbr(i-1,j));
-		   if(i<N && isOpen(i+1,j))
+			   wuf2.union(getNbr(i,j), getNbr(i-1,j));
+		   }
+		   if(i<N && isOpen(i+1,j)){
 			   wuf.union(getNbr(i,j), getNbr(i+1,j));
-		   if(j>1 && isOpen(i,j-1))
+			   wuf2.union(getNbr(i,j), getNbr(i+1,j));
+		   }
+		   if(j>1 && isOpen(i,j-1)){
 			   wuf.union(getNbr(i,j), getNbr(i,j-1));
-		   if(j<N && isOpen(i, j+1))
+			   wuf2.union(getNbr(i,j), getNbr(i,j-1));
+		   }
+		   if(j<N && isOpen(i, j+1)){
 			   wuf.union(getNbr(i,j), getNbr(i,j+1));
-		 		   
+			   wuf2.union(getNbr(i,j), getNbr(i,j+1));
+		   }
+
 	   }
 	   public boolean isOpen(int i, int j){
 		   if (i <= 0 || i > N || j <= 0 || j > N) 
@@ -51,7 +65,7 @@ public class Percolation {
 		   if (i <= 0 || i > N || j <= 0 || j > N) 
 			   throw new IndexOutOfBoundsException("index i or j out of bounds");
 		   // is site (row i, column j) full?
-		   return wuf.connected(top,getNbr(i,j));
+		   return wuf2.connected(top,getNbr(i,j));
 	   }
 	   public boolean percolates()    {
 		   // does the system percolate?
@@ -59,6 +73,17 @@ public class Percolation {
 	   }
 	   public static void main(String[] args) {
 		   // test client, optional
+		   int N = 20;
+		   Percolation perc = new Percolation(N);
+		   perc.open(5, 5);
+		   System.out.println("is full? "+ perc.isFull(5,5));
+//	       while (!perc.percolates()) {
+//	    	   int x = StdRandom.uniform(N)+1;
+//	    	   int y = StdRandom.uniform(N)+1;
+//	    	   if(!perc.isOpen(y, x)){
+//	    		   perc.open(y,x);
+//	    	   }
+//	       }
 	   }
 
 	   private int getNbr(int i, int j){
