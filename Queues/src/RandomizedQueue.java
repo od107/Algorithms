@@ -31,7 +31,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		q[tail++] = item;
 		if(size() == capacity)
 			resize(capacity * 2);
-		else if(tail == capacity - 1)
+		else if(tail == capacity)
 			resize(capacity); // moves the content back to the front
 		assert check();
 
@@ -42,16 +42,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if(isEmpty())
 			throw new NoSuchElementException("List was empty");
 		
-		Item item;
-		int itemNbr = StdRandom.uniform(size()) + head;
 		
+		int itemNbr = StdRandom.uniform(size()) + head;
+		Item item = q[itemNbr];
+		q[itemNbr] = null;
+
 		if(itemNbr == tail-1)
-			item = q[--tail];
+			tail--;
 		else if(itemNbr == head)
-			item = q[head++];
+			head++;
 		else{
-			item = q[itemNbr];
-			q[itemNbr] = q[--tail]; //move last item to empty spot
+			q[itemNbr] = q[tail-1]; //move last item to empty spot
+			q[--tail] = null;
 		}
 			
 		if(size() <= capacity / 4)
@@ -86,62 +88,95 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		assert check();
 	}
 	public Iterator<Item> iterator(){
-		// return an independent iterator over items in random order
-		// put here a shuffled copy of the queue
-	
+
 		return new ArrayIterator();
 	}
 
 	private class ArrayIterator implements Iterator<Item>{
+
+		private int current;
 		private Item[] copy;
-		private int current = head;
 		
 		public ArrayIterator(){
-			Item[] copy = (Item[])(new Object[size()]);
-			for(int i=0;i<capacity; i++)
-				copy[i] = q[i];
-			StdRandom.shuffle(copy, head, tail);
+			copy = (Item[]) new Object[size()];
+			for(int i=0;i<size();i++){
+				copy[i]=q[head+i];
+			}
+			StdRandom.shuffle(copy);
 		}
-		public boolean hasNext()  { return current != tail;                    }
+		
+		public boolean hasNext()  { return (current) != copy.length;                    }
 		public void remove()      { throw new UnsupportedOperationException();  }
 
 		public Item next() {
 			if (!hasNext()) throw new NoSuchElementException();
 
-			return copy[++current];
+			return copy[current++];
 		}
 	}
 	
 	 private boolean check() {
 
-	       if (capacity == 1) {
-	           if (head != tail) return false;
-	       }
-	       else if(head == tail) return false;
-	       else if(tail > capacity - 1) return false;
+//	       if (q[tail] != null) return false;
+	        if (capacity == 1 && head != tail) return false;
+	       else if(capacity != 1 && head == tail) return false;
+	       else if(tail > capacity) return false;
 	       else if(capacity < tail-head) return false;
 	       else if (tail-head < capacity / 4) return false;
-
-	       // check internal consistency of size
-//	       int numberOfItems = 0;
-//	       for(Item i : q)
-//	    	   numberOfItems++;
-//	       if (numberOfItems != size()) return false;
 
 	       return true;
 	   }
 	public static void main(String[] args){
 		// unit testing
-	      RandomizedQueue<String> s = new RandomizedQueue<String>();
-	       while (!StdIn.isEmpty()) {
-	           String item = StdIn.readString();
-	           
-	           if (item.equals("-")) StdOut.print(s.dequeue() + " ");
-	           else if (item.equals("s")) StdOut.print(s.sample() + " ");
-	           else s.enqueue(item);
 
-	       } 
-	       StdOut.println("(" + s.size() + " left on random queue)");
+	      //manual input testing
+//		RandomizedQueue<String> s = new RandomizedQueue<String>();
+//	       while (!StdIn.isEmpty()) {
+//	           String item = StdIn.readString();
+//	           
+//	           if (item.equals("-")) StdOut.print(s.dequeue() + " ");
+//	           else if (item.equals("s")) StdOut.print(s.sample() + " ");
+//	           else s.enqueue(item);
+//
+//	       } 
+	       
+	       //make randomized testing
+//	       RandomizedQueue<Integer> s = new RandomizedQueue<Integer>();
+//	       int count=0;
+//	       for(int i=0;i<100000;i++){
+//	    	   double decision = StdRandom.uniform();
+//	    	   if(decision<0.1){
+//	    		   s.enqueue(count++);
+//	    		   System.out.println("enqueing " + count);
+//	    	   }
+//	    	   else if(0.1 <= decision && decision < 0.2){
+//	    		   if(s.isEmpty()){
+//	    			   i--;
+//	    		   }
+//	    		   else
+//	    			   System.out.println("dequeing " + s.dequeue());
+//	    	   }
+//	    	   else if(0.2 <= decision)
+//	    		   if(s.isEmpty()){
+//	    			   i--;
+//	    		   }
+//	    		   else
+//	    		   System.out.println("sampling " + s.sample());
+//	       }
+	       
+	       //test iterator
+	       int count=0;
+	       RandomizedQueue<Integer> s = new RandomizedQueue<Integer>();
+	       for (int i=0;i<500;i++){
+	    	   s.enqueue(count++);
+	       }
+	       Iterator<Integer> iter = s.iterator();
+	       Iterator<Integer> iter2 = s.iterator(); 
+	       
+	       while(iter.hasNext()){
+	    	   System.out.println("output nbr: " + count-- + "\t" + iter.next());
+	    	   System.out.println("2nd iterator: " +  "\t" + iter2.next());
+	       }
 	   }
 	
 }
