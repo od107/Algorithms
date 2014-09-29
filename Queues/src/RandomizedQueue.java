@@ -49,8 +49,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 		if(itemNbr == tail-1)
 			tail--;
-		else if(itemNbr == head)
-			head++;
+//		else if(itemNbr == head) //no performance gain here
+//			head++;				 
 		else{
 			q[itemNbr] = q[tail-1]; //move last item to empty spot
 			q[--tail] = null;
@@ -141,42 +141,43 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 //	       } 
 	       
 	       //make randomized testing
-//	       RandomizedQueue<Integer> s = new RandomizedQueue<Integer>();
-//	       int count=0;
-//	       for(int i=0;i<100000;i++){
-//	    	   double decision = StdRandom.uniform();
-//	    	   if(decision<0.1){
-//	    		   s.enqueue(count++);
-//	    		   System.out.println("enqueing " + count);
-//	    	   }
-//	    	   else if(0.1 <= decision && decision < 0.2){
-//	    		   if(s.isEmpty()){
-//	    			   i--;
-//	    		   }
-//	    		   else
-//	    			   System.out.println("dequeing " + s.dequeue());
-//	    	   }
-//	    	   else if(0.2 <= decision)
-//	    		   if(s.isEmpty()){
-//	    			   i--;
-//	    		   }
-//	    		   else
-//	    		   System.out.println("sampling " + s.sample());
-//	       }
+	       RandomizedQueue<Integer> s = new RandomizedQueue<Integer>();
+	       int count=0;
+	       for(int i=0;i<100000;i++){
+	    	   double decision = StdRandom.uniform();
+	    	   if(decision<0.1){
+	    		   s.enqueue(count++);
+	    		   System.out.println("enqueing " + count);
+	    	   }
+	    	   else if(0.1 <= decision && decision < 0.2){
+	    		   if(s.isEmpty()){
+	    			   i--;
+	    		   }
+	    		   else
+	    			   System.out.println("dequeing " + s.dequeue());
+	    	   }
+	    	   else if(0.2 <= decision)
+	    		   if(s.isEmpty()){
+	    			   i--;
+	    		   }
+	    		   else
+	    		   System.out.println("sampling " + s.sample());
+	       }
 	       
 	       //test iterator
-	       int count=0;
-	       RandomizedQueue<Integer> s = new RandomizedQueue<Integer>();
-	       for (int i=0;i<500;i++){
-	    	   s.enqueue(count++);
-	       }
-	       Iterator<Integer> iter = s.iterator();
-	       Iterator<Integer> iter2 = s.iterator(); 
+//	       int count=0;
+//	       RandomizedQueue<Integer> s = new RandomizedQueue<Integer>();
+//	       for (int i=0;i<500;i++){
+//	    	   s.enqueue(count++);
+//	       }
+//	       Iterator<Integer> iter = s.iterator();
+//	       Iterator<Integer> iter2 = s.iterator(); 
+//	       
+//	       while(iter.hasNext()){
+//	    	   System.out.println("output nbr: " + count-- + "\t" + iter.next());
+//	    	   System.out.println("2nd iterator: " +  "\t" + iter2.next());
+//	       }
 	       
-	       while(iter.hasNext()){
-	    	   System.out.println("output nbr: " + count-- + "\t" + iter.next());
-	    	   System.out.println("2nd iterator: " +  "\t" + iter2.next());
-	       }
+	       
 	   }
-	
-}
+	}
