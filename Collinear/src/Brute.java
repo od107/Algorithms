@@ -1,6 +1,6 @@
 //Brute force solution to find all lines which have at least 4 collinear points
-import java.util.*;
-import java.lang.*;
+import java.util.Arrays;
+//import java.lang.*;
 
 public class Brute {
 
@@ -23,6 +23,7 @@ public class Brute {
         }
         StdDraw.show(0);
         StdDraw.setPenRadius();
+        StdDraw.setPenColor(StdDraw.BLUE);
         
         Arrays.sort(points);
         
@@ -40,8 +41,6 @@ public class Brute {
         								points[r] + " -> " +
         								points[s]);
         					points[p].drawTo(points[s]);
-   //     					points[q].drawTo(points[r]);
-   //     					points[r].drawTo(points[s]);	
         					}
         				}
         			}

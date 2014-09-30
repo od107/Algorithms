@@ -3,12 +3,12 @@ import java.util.Comparator;
 public class Point implements Comparable<Point> {
 	private final int x,y;
 	
-   public static final Comparator<Point> SLOPE_ORDER = new SlopeOrder();
+   public final Comparator<Point> SLOPE_ORDER = new SlopeOrder();
    // compare points by slope to this point
    
-   private static class SlopeOrder implements Comparator<Point>{
-	   public double compare(Point a,Point b){
-		   return this.slopeTo(a) - this.slopeTo(b);
+   private class SlopeOrder implements Comparator<Point>{
+	   public int compare(Point a,Point b){
+		   return (int) (slopeTo(a) - slopeTo(b));
 	   }
    }
 
@@ -41,10 +41,14 @@ public class Point implements Comparable<Point> {
    }
    public double slopeTo(Point that){
 	   // the slope between this point and that point
+	   if(that.x == x && that.y == y)
+		   return Double.NEGATIVE_INFINITY;
 	   if(that.x == x)
-		   return Double.MAX_VALUE;
+		   return Double.POSITIVE_INFINITY;
 	   if(that.y == y)
 		   return 0;
-	   return (that.y - y) / (that.x - x);
+	   double deltaY = (that.y - y);
+	   double deltaX = (that.x - x);
+	   return deltaY / deltaX;
    }
 }
