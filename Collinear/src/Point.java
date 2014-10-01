@@ -31,7 +31,7 @@ public class Point implements Comparable<Point> {
 	   return "(" + x + ", " + y + ")";
    }
 
-   public    int compareTo(Point that){
+   public int compareTo(Point that){
 	   // is this point lexicographically smaller than that point?
 	   if (that.y < y)	return 1;
 	   if (that.y > y)	return -1;
