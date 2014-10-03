@@ -25,27 +25,42 @@ public class Fast {
         
         //now we don't want the natural ordering
         //but the ordering according to slope
-
-//        double[] slopes = new double[N];
         Point[] copy = points;
         
-        for (int p = 0; p < N; p++) { //up to N here?
-//        	Point origin = points[p];
-            Arrays.sort(copy,points[p].SLOPE_ORDER);
-            int count=0;
-        	for(int i=1;i<N;i++){
-        		double slope = copy[i].slopeTo(points[p]);
-        		double prevSlope = copy[i-1].slopeTo(points[p]);
+        for (int p = 0; p < N; p++) { 
+        	Point origin = points[p];
+            Arrays.sort(copy,origin.SLOPE_ORDER);
+            int count=2; //every 2 points make a line
+        	for(int i=2;i<N;i++){ //no need to cover first point: always equal to p
+        		double slope = origin.slopeTo(copy[i]);
+        		double prevSlope = origin.slopeTo(copy[i-1]);
         		if(slope == prevSlope)
         			count++;
-        		else
-        			count=1;
-        		if(count == 4){
-        			System.out.println(points[p] + " -> " +
-							points[i] + " -> " +
-							points[i-1] + " -> " +
-							points[i-2]);
-        			points[p].drawTo(points[i]);
+        		else 
+        			count = 2;
+//        		{
+        			if(count >= 4){ //here still too much segments drawn
+        				// no permutations allowed, and no more than 1 segment per line, 
+        				// no matter how many points
+        				
+        				//sorteer de gevonden punten
+//        				//
+//        				System.out.print(origin + " -> ");
+//        				for(int k=1;k<count;k++){
+//        					System.out.print(copy[i-k] + " -> ");
+//        					origin.drawTo(copy[i-k]);
+//        				}
+        				System.out.println(origin + " -> " +
+        						points[i] + " -> " +
+        						points[i-1] + " -> " +
+        						points[i-2]);
+        				origin.drawTo(points[i]);
+        				origin.drawTo(points[i-1]);
+        				origin.drawTo(points[i-2]);
+        			
+//        			System.out.println("");
+//        			}
+//        			count=2;
         		}
         	}
         }
