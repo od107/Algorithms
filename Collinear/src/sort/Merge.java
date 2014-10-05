@@ -14,15 +14,16 @@ public class Merge {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Integer[] input = {56, 89, 20, 41, 88, 79, 25, 49, 63, 97, 75, 55};
+		Integer[] input = {34, 94, 59, 69, 48, 29, 71, 97, 67, 84, 26, 73  };
 		
 		count=0;
 		int length = input.length;
 		aux = new Integer[length];
 		sort(input,aux,0,length-1);
 		
-		for(int i=0;i<length;i++)
-			System.out.print(input[i] + "  ");
+		// uncomment to get full sorted result
+//		for(int i=0;i<length;i++)
+//			System.out.print(input[i] + "  ");
 	}
 
 	private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi)
@@ -42,7 +43,7 @@ public class Merge {
 		assert isSorted(a, lo, hi); // postcondition: a[lo..hi] sorted
 
 		count++;
-		if(count == 7){
+		if(count == 7){ // because we want the result of the 7th call
 			for(int r=0;r<a.length;r++){
 				System.out.print(a[r] + "  ");
 			}

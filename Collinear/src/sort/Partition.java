@@ -9,7 +9,7 @@ public class Partition {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Integer[] input = {56, 89, 20, 41, 88, 79, 25, 49, 63, 97, 75, 55};
+		Integer[] input = {20, 91, 94, 82, 43, 48, 19, 85, 13, 44, 32, 86   };
 //		String[] input = {"A", "B", "B", "A","B", "B", "A", "B", "A", "A", "A", "A"};
 
 		int i=0;
