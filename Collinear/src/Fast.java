@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+
+//permutations still need to be covered
 
 public class Fast {
 
@@ -25,46 +28,67 @@ public class Fast {
         
         //now we don't want the natural ordering
         //but the ordering according to slope
+//        Arrays.sort(points); //not sure if this step adds anything
         Point[] copy = points;
+        ArrayList<Point[]> solution = new ArrayList<Point[]>();
         
-        for (int p = 0; p < N; p++) { 
+        for (int p = 0; p < N-3; p++) { 
         	Point origin = points[p];
-            Arrays.sort(copy,origin.SLOPE_ORDER);
-            int count=2; //every 2 points make a line
-        	for(int i=2;i<N;i++){ //no need to cover first point: always equal to p
-        		double slope = origin.slopeTo(copy[i]);
-        		double prevSlope = origin.slopeTo(copy[i-1]);
-        		if(slope == prevSlope)
+        	Arrays.sort(copy,origin.SLOPE_ORDER);
+        	int count=2; //every 2 points make a line
+        	double slope = origin.slopeTo(copy[0]);
+        	
+        	for(int i=1;i<N;i++){ //no need to cover first point: always equal to p
+        		double prevSlope = slope;
+        		slope = origin.slopeTo(copy[i]);
+        		if (slope == Double.NEGATIVE_INFINITY)
+        			continue;
+
+        		if(slope == prevSlope )
         			count++;
-        		else 
-        			count = 2;
-//        		{
-        			if(count >= 4){ //here still too much segments drawn
-        				// no permutations allowed, and no more than 1 segment per line, 
-        				// no matter how many points
+
+        		if(slope != prevSlope || i == N-1){ 
+
+        			if(count >= 4){ 
+
+        				//store solution
+        				Point[] sol = new Point[count];
+        				sol[0] = origin;
         				
-        				//sorteer de gevonden punten
-//        				//
-//        				System.out.print(origin + " -> ");
-//        				for(int k=1;k<count;k++){
-//        					System.out.print(copy[i-k] + " -> ");
-//        					origin.drawTo(copy[i-k]);
-//        				}
-        				System.out.println(origin + " -> " +
-        						points[i] + " -> " +
-        						points[i-1] + " -> " +
-        						points[i-2]);
-        				origin.drawTo(points[i]);
-        				origin.drawTo(points[i-1]);
-        				origin.drawTo(points[i-2]);
-        			
-//        			System.out.println("");
-//        			}
-//        			count=2;
+        				if(i == N-1) //correction if stopped at last element
+        					i++;
+        				for(int r=1;r<count;r++){
+        					sol[r] = copy[i-r];
+        				}
+        				Arrays.sort(sol);
+        				if(!containsArray(solution, sol)){
+            				solution.add(sol);       					
+        				}
+        			}
+        			count=2;
         		}
         	}
         }
+        output(solution);
         StdDraw.show(0);
+	}
+	
+	private static void output(ArrayList<Point[]> solution){ //nog wat foutjes
+		for(Point[] sol : solution){
+			for(int i=0;i<sol.length-1;i++){
+				System.out.print(sol[i] + " -> ");
+				sol[i].drawTo(sol[i+1]);
+			}
+			System.out.println(sol[sol.length-1]);
+		}
+	}
+	
+	private static boolean containsArray(ArrayList<Point[]> solution, Point[] newEntry){
+		for(Point[] sol : solution){
+			if(Arrays.equals(sol, newEntry))
+				return true;
+		}
+		return false;
 	}
 
 }

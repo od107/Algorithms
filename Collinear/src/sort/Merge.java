@@ -14,7 +14,7 @@ public class Merge {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Integer[] input = {34, 94, 59, 69, 48, 29, 71, 97, 67, 84, 26, 73  };
+		Integer[] input = {52, 16, 89, 48, 88, 47, 49, 76, 50, 56, 80, 66};
 		
 		count=0;
 		int length = input.length;
