@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//permutations still need to be covered
-
 public class Fast {
 
 	public static void main(String[] args) {
@@ -26,8 +24,6 @@ public class Fast {
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
         
-        //now we don't want the natural ordering
-        //but the ordering according to slope
 //        Arrays.sort(points); //not sure if this step adds anything
         Point[] copy = points;
         ArrayList<Point[]> solution = new ArrayList<Point[]>();

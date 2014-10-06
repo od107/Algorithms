@@ -50,12 +50,6 @@ public class Point implements Comparable<Point> {
 	   return 0;
    }
    
-   public boolean equals(Point that){
-	   // is this point lexicographically smaller than that point?
-	   if (that.y == y && that.x == x)	return true;
-	   return false;
-   }
-   
    public double slopeTo(Point that){
 	   // the slope between this point and that point
 	   if(that.x == x && that.y == y)
