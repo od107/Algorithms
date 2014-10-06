@@ -16,8 +16,6 @@ public class Point implements Comparable<Point> {
 			   return 1;
 		   return 0;
 				  
-		   
-//		   return (int) (slopeTo(a) - slopeTo(b));
 	   }
    }
 

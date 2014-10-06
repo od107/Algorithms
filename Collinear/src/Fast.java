@@ -28,8 +28,14 @@ public class Fast {
         Point[] copy = points;
         ArrayList<Point[]> solution = new ArrayList<Point[]>();
         
-        for (int p = 0; p < N-3; p++) { 
+        for (int p = 0; p < N; p++) { 
         	Point origin = points[p];
+        	
+        	Point tp = new Point(1697, 2986);
+        	if(origin.compareTo(tp) == 0)
+        		System.out.println("missing");
+        	
+        	
         	Arrays.sort(copy,origin.SLOPE_ORDER);
         	int count=2; //every 2 points make a line
         	double slope = origin.slopeTo(copy[0]);
@@ -51,7 +57,7 @@ public class Fast {
         				Point[] sol = new Point[count];
         				sol[0] = origin;
         				
-        				if(i == N-1) //correction if stopped at last element
+        				if(i == N-1 && slope == prevSlope) //correction if stopped at last element which was part of the line
         					i++;
         				for(int r=1;r<count;r++){
         					sol[r] = copy[i-r];
@@ -71,11 +77,13 @@ public class Fast {
 	
 	private static void output(ArrayList<Point[]> solution){ //nog wat foutjes
 		for(Point[] sol : solution){
-			for(int i=0;i<sol.length-1;i++){
+			int length = sol.length;
+			for(int i=0;i<length-1;i++){
 				System.out.print(sol[i] + " -> ");
-				sol[i].drawTo(sol[i+1]);
+
 			}
-			System.out.println(sol[sol.length-1]);
+			System.out.println(sol[length-1]);
+			sol[0].drawTo(sol[length-1]);
 		}
 	}
 	
