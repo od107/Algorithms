@@ -24,17 +24,11 @@ public class Fast {
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
         
-//        Arrays.sort(points); //not sure if this step adds anything
-        Point[] copy = points;
+        Point[] copy = points.clone();
         ArrayList<Point[]> solution = new ArrayList<Point[]>();
-        
+    	
         for (int p = 0; p < N; p++) { 
         	Point origin = points[p];
-        	
-        	Point tp = new Point(1697, 2986);
-        	if(origin.compareTo(tp) == 0)
-        		System.out.println("missing");
-        	
         	
         	Arrays.sort(copy,origin.SLOPE_ORDER);
         	int count=2; //every 2 points make a line
@@ -75,7 +69,7 @@ public class Fast {
         StdDraw.show(0);
 	}
 	
-	private static void output(ArrayList<Point[]> solution){ //nog wat foutjes
+	private static void output(ArrayList<Point[]> solution){ 
 		for(Point[] sol : solution){
 			int length = sol.length;
 			for(int i=0;i<length-1;i++){
@@ -88,9 +82,11 @@ public class Fast {
 	}
 	
 	private static boolean containsArray(ArrayList<Point[]> solution, Point[] newEntry){
+		int length = newEntry.length;
 		for(Point[] sol : solution){
-			if(Arrays.equals(sol, newEntry))
-				return true;
+			if(sol.length == length)
+				if(sol[0] == newEntry[0] && sol[length-1] == newEntry[length-1])
+					return true;
 		}
 		return false;
 	}
