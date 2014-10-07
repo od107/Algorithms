@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Fast {
 
@@ -20,23 +21,24 @@ public class Fast {
             points[i] = new Point(x, y);
             points[i].draw();
         }
-        StdDraw.show(0);
+//        StdDraw.show(0);
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
         
-        Point[] copy = points.clone();
+        Arrays.sort(points); //necessary?
+//        Point[] points = points.clone();
         ArrayList<Point[]> solution = new ArrayList<Point[]>();
     	
-        for (int p = 0; p < N; p++) { 
+        for (int p = 0; p < N-3; p++) { 
         	Point origin = points[p];
         	
-        	Arrays.sort(copy,origin.SLOPE_ORDER);
+        	Arrays.sort(points,p+1,N,origin.SLOPE_ORDER);
         	int count=2; //every 2 points make a line
-        	double slope = origin.slopeTo(copy[0]);
+        	double slope = origin.slopeTo(points[p]);
         	
-        	for(int i=1;i<N;i++){ //no need to cover first point: always equal to p
+        	for(int i=p+1;i<N;i++){ //no need to cover first point: always equal to p
         		double prevSlope = slope;
-        		slope = origin.slopeTo(copy[i]);
+        		slope = origin.slopeTo(points[i]);
         		if (slope == Double.NEGATIVE_INFINITY)
         			continue;
 
@@ -54,7 +56,7 @@ public class Fast {
         				if(i == N-1 && slope == prevSlope) //correction if stopped at last element which was part of the line
         					i++;
         				for(int r=1;r<count;r++){
-        					sol[r] = copy[i-r];
+        					sol[r] = points[i-r];
         				}
         				Arrays.sort(sol);
         				if(!containsArray(solution, sol)){
@@ -81,12 +83,44 @@ public class Fast {
 		}
 	}
 	
+	private static boolean contains(Point[] small, Point[] big){
+		//4 points of small need to occur in big
+		int sLength = small.length;
+		int bLength = big.length;
+		int count = 0;
+		for (int i=0;i<bLength;i++){
+			int j;
+			for(j=0;j<sLength;j++){
+				if(small[j]==big[i])
+					if(++count >= 4)
+						return true;
+			}
+		}
+		return false;
+	}
+
+	
 	private static boolean containsArray(ArrayList<Point[]> solution, Point[] newEntry){
-		int length = newEntry.length;
+		int Nlength = newEntry.length;
 		for(Point[] sol : solution){
-			if(sol.length == length)
-				if(sol[0] == newEntry[0] && sol[length-1] == newEntry[length-1])
+			int Olength = sol.length;
+			if(Olength == Nlength){
+				if(sol[0] == newEntry[0] && sol[Olength-1] == newEntry[Nlength-1])
 					return true;
+			}
+			else if (Nlength < Olength){
+				if (contains(newEntry, sol))
+						//Collections.indexOfSubList(Arrays.asList(sol), Arrays.asList(newEntry)) != -1)
+					return true;
+			}
+			//the next scenario should never be accessed
+			else if (Olength < Nlength){
+				if (contains(sol, newEntry))
+						//Collections.indexOfSubList(Arrays.asList(newEntry), Arrays.asList(sol)) != -1)
+					// in this case remove original line from solution before adding new one
+					solution.remove(sol);
+					//continue searching rest of the solution
+			}
 		}
 		return false;
 	}
