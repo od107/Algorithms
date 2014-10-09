@@ -31,50 +31,64 @@ public class Fast {
         for (int p = 0; p < N; p++) { 
         	Point origin = points[p];
         	
+        	Arrays.sort(copy); //why is this needed? shouldn't it be stable without?
+        	// can test if making a new copy is faster; should be N instead of N log N
         	Arrays.sort(copy,origin.SLOPE_ORDER);
-        	int count=2; //every 2 points make a line
-        	double slope = origin.slopeTo(copy[0]);
         	
-        	for(int i=1;i<N;i++){ //no need to cover first point: always equal to p
-        		if (origin.compareTo(copy[i]) >= 0) // enkel geinteresseerd in lijnen die naar boven gaan
-    				//slope == Double.NEGATIVE_INFINITY )
-    			continue; // problem if i == N-1
+        	int count=2; //every 2 points make a line
+        	double blockedSlope = Double.NEGATIVE_INFINITY;
 
-        		double prevSlope = slope;
-        		slope = origin.slopeTo(copy[i]);
 
-        		if(slope == prevSlope )
+        	for(int i=0;i<N-1;i++){ //no need to cover first point: always equal to p
+        		double slope = origin.slopeTo(copy[i]); 
+        		double nextSlope = origin.slopeTo(copy[i+1]);
+        		
+        		if (slope == blockedSlope)
+        			continue;
+        		
+        		if (origin.compareTo(copy[i]) >= 0){ // enkel geinteresseerd in lijnen die naar boven gaan
+        			blockedSlope = slope;
+        			continue; // skip all with same slope, not just this one point
+        		}
+
+        		if(slope == nextSlope)
         			count++;
 
-        		if(slope != prevSlope || i == N-1){ 
-
-        			if(count >= 4){ 
-
+        		//        		if(slope != nextSlope || i == N-1){ 
+        		else {
+        			if (count >= 4){ 
         				//store solution
         				Point[] sol = new Point[count];
         				sol[0] = origin;
-        				
-        				if(i == N-1 && slope == prevSlope) //correction if stopped at last element which was part of the line
-        					i++;
+        				//        				if(i == N-1 && slope == prevSlope) //correction if stopped at last element which was part of the line
+        				//        					i++;
         				for(int r=1;r<count;r++){ //not in right order
-        					sol[count-r] = copy[i-r];
+        					sol[count-r] = copy[i+1-r];
         				}
-        				Arrays.sort(sol); // still necessary because order gets messed up
-        				
-        				//this step takes too much resources
-//        				if(!containsArray(solution, sol)){
-            				solution.add(sol);       					
-//        				}
+  //      				Arrays.sort(sol); // still necessary because order gets messed up
+        				solution.add(sol);       					
         			}
         			count=2;
         		}
         	}
-        	
+        	  // here i = N -1, al die stappen op dit moment uitvoeren
+        	if (count >= 4){
+    			Point[] sol = new Point[count];
+    			sol[0] = origin; 
+    			for(int r=1;r<count;r++){ //not in right order
+    				sol[count-r] = copy[N-r];
+    			}
+//    			Arrays.sort(sol); 
+    			solution.add(sol);   
+        	}
         }
         output(solution);
         StdDraw.show(0);
 	}
-	
+
+	private static void store(ArrayList<Point[]> solution, Point origin, Point[] copy){
+		
+	}
 	private static void output(ArrayList<Point[]> solution){ 
 		for(Point[] sol : solution){
 			int length = sol.length;
