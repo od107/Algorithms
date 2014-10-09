@@ -24,6 +24,7 @@ public class Fast {
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
         
+        Arrays.sort(points);
         Point[] copy = points.clone();
         ArrayList<Point[]> solution = new ArrayList<Point[]>();
     	
@@ -35,10 +36,12 @@ public class Fast {
         	double slope = origin.slopeTo(copy[0]);
         	
         	for(int i=1;i<N;i++){ //no need to cover first point: always equal to p
+        		if (origin.compareTo(copy[i]) >= 0) // enkel geinteresseerd in lijnen die naar boven gaan
+    				//slope == Double.NEGATIVE_INFINITY )
+    			continue; // problem if i == N-1
+
         		double prevSlope = slope;
         		slope = origin.slopeTo(copy[i]);
-        		if (slope == Double.NEGATIVE_INFINITY)
-        			continue;
 
         		if(slope == prevSlope )
         			count++;
@@ -53,17 +56,20 @@ public class Fast {
         				
         				if(i == N-1 && slope == prevSlope) //correction if stopped at last element which was part of the line
         					i++;
-        				for(int r=1;r<count;r++){
-        					sol[r] = copy[i-r];
+        				for(int r=1;r<count;r++){ //not in right order
+        					sol[count-r] = copy[i-r];
         				}
-        				Arrays.sort(sol);
-        				if(!containsArray(solution, sol)){
+        				Arrays.sort(sol); // still necessary because order gets messed up
+        				
+        				//this step takes too much resources
+//        				if(!containsArray(solution, sol)){
             				solution.add(sol);       					
-        				}
+//        				}
         			}
         			count=2;
         		}
         	}
+        	
         }
         output(solution);
         StdDraw.show(0);
