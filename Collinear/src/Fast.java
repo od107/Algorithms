@@ -31,9 +31,9 @@ public class Fast {
         for (int p = 0; p < N; p++) { 
         	Point origin = points[p];
         	
-        	Arrays.sort(copy); //why is this needed? shouldn't it be stable without?
-        	// can test if making a new copy is faster; should be N instead of N log N
-        	Arrays.sort(copy,origin.SLOPE_ORDER);
+        	copy = points.clone(); //slightly faster dan double sorting (N vs NlogN)
+ //       	Arrays.sort(copy); 
+        	Arrays.sort(copy,origin.SLOPE_ORDER); 
         	
         	int count=2; //every 2 points make a line
         	double blockedSlope = Double.NEGATIVE_INFINITY;
@@ -45,7 +45,7 @@ public class Fast {
         		if (slope == blockedSlope)
         			continue;
         		
-        		if (origin.compareTo(copy[i]) >= 0){ // only interested in lines going up
+        		if (origin.compareTo(copy[i]) >= 0){ // only interested in lines going up (or horizontal)
         			blockedSlope = slope;
         			continue; // skip all with same slope, not just this one point
         		}
