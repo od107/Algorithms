@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -5,9 +7,10 @@ import java.util.Iterator;
 
 public class Solver {
 	
-	ArrayList<Node> solution = new ArrayList<Node>();
+//	ArrayList<Node> solution = new ArrayList<Node>();
 	private boolean solveable = false;
-	ArrayList<Board> bsol = new ArrayList<Board>();
+//	ArrayList<Board> bsol = new ArrayList<Board>();
+	Node solution = null;
 
 	
 	private class Node implements Comparable<Node>{
@@ -55,14 +58,18 @@ public class Solver {
     		neighbours = actual.board.neighbors();
 
     		for(Board neighbour : neighbours) {
+    			if(neighbour.equals(actual.prevNode))
+    				continue;
     			Node node = new Node(neighbour, actual);
     			que.insert(node);
     		}
   
-    		bsol.add(actual.board);
+//    		bsol.add(actual.board);
+    		
     		
     		if(actual.board.isGoal()){
     			solveable = true;
+    			solution = actual;
     			break;
     		}
     	} 
@@ -74,14 +81,31 @@ public class Solver {
     }
     public int moves()  {
     	// min number of moves to solve initial board; -1 if unsolvable
-    	if (solveable)
-    		return solution.size();
+    	if (solveable){
+    		int count = 0;
+    		Node actual = solution;
+        	while(actual.prevNode != null) {
+            	count++;
+            	actual = actual.prevNode;
+        	}
+        	return count;
+    	}
+//    		return solution.size();
     	else
     		return -1;
     }
     public Iterable<Board> solution() {
     	// sequence of boards in a shortest solution; null if unsolvable
-    	return bsol;
+    	LinkedList<Board> sequence = new LinkedList<Board>();
+    	
+    	Node actual = solution;
+    	
+    	while(actual.prevNode != null) {
+        	sequence.add(actual.board);
+        	actual = actual.prevNode;
+    	}
+
+    	return sequence;
     }
     
     public static void main(String[] args) {

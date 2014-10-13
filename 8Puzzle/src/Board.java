@@ -63,6 +63,7 @@ public class Board {
     			if (tiles[i][j] == value){
     				ind[0] = i;
     				ind[1] = j;
+    				return ind;
     			}
        	return ind;
     }
@@ -121,9 +122,10 @@ public class Board {
 //       	arraylist will do
        	
        	ArrayList<Board> list = new ArrayList<Board>();
+//       	Board current = this;
        	if (a > 0) 
-       		list.add(move(this, a, b, a-1, b));
-       	if (a < N-1)
+       		list.add(move(this, a, b, a-1, b)); //the problem is that "this" gets actually changed in the process
+       	if (a < N-1)							//which is not what we want
        		list.add(move(this, a, b, a+1, b));
        	if (b > 0)
        		list.add(move(this, a, b, a, b-1));
