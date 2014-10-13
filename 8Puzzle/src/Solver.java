@@ -5,45 +5,83 @@ import java.util.Iterator;
 
 public class Solver {
 	
-	private class Node {
+	ArrayList<Node> solution = new ArrayList<Node>();
+	private boolean solveable = false;
+	ArrayList<Board> bsol = new ArrayList<Board>();
+
+	
+	private class Node implements Comparable<Node>{
 		public int moves;
 		public Board board;
 		public Node prevNode;
+		public int priority;
 		
-		public Node(){
+		public Node(Board board) { 
+			// constructor for initial board
 			moves = 0;
-			//initialise board & prevNode?
+			this.board = board;
+			prevNode = null;
+			priority = board.manhattan() + moves;
+		}
+		
+		public Node(Board board, Node previous){
+			moves = previous.moves++;
+			this.board = board;
+			prevNode = previous;
+			priority = board.manhattan() + moves;
+		}
+		
+		public int compareTo(Node that){
+			if(this.priority < that.priority)
+				return -1;
+			if(this.priority > that.priority)
+				return 1;
+			else
+				return 0;
 		}
 	}
 	
     public Solver(Board initial) {
     	// find a solution to the initial board (using the A* algorithm)
-    	MinPQ<Node> que = new MinPQ<Node>(initial.manhattan());
+    	MinPQ<Node> que = new MinPQ<Node>();
     	
-		Node actual = que.delMin();   	
-		while (!actual.board.isGoal()) {
-			ArrayList<Board> neighbours = new ArrayList<Board>();
-			neighbours = (ArrayList<Board>) actual.board.neighbors();
-			Iterator<Board> iter = neighbours.iterator();
-			while(iter.hasnext()){
-				que.insert(iter.next());
-			}
-//			que.insert(actual.neighbors());
+    	Node actual = new Node(initial);
+    	que.insert(actual);
+     	
+    	while (!que.isEmpty()) {
+        	actual = que.delMin(); 
     		
-    	
-    		 }
+    		Iterable<Board> neighbours = new ArrayList<Board>();
+    		neighbours = actual.board.neighbors();
+
+    		for(Board neighbour : neighbours) {
+    			Node node = new Node(neighbour, actual);
+    			que.insert(node);
+    		}
+  
+    		bsol.add(actual.board);
+    		
+    		if(actual.board.isGoal()){
+    			solveable = true;
+    			break;
+    		}
+    	} 
     }
+
     public boolean isSolvable() {
     	// is the initial board solvable?
-    	
+    	return solveable;
     }
     public int moves()  {
     	// min number of moves to solve initial board; -1 if unsolvable
-    	
+    	if (solveable)
+    		return solution.size();
+    	else
+    		return -1;
     }
     public Iterable<Board> solution() {
     	// sequence of boards in a shortest solution; null if unsolvable
-    	
+    	return bsol;
     }
     
     public static void main(String[] args) {

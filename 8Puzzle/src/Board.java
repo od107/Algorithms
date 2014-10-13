@@ -72,7 +72,7 @@ public class Board {
     		for (int j=0; j<N; j++){
     			if( i == N-1 && j == N-1)
     				return (tiles[i][j] == 0);
-    			if (tiles[i][j] != j * N + i + 1)
+    			if (tiles[i][j] != i * N + j + 1)
     				return false;
     		}
     	return true;
