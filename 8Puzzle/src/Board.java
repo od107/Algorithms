@@ -33,24 +33,25 @@ public class Board {
     	int count = 0;
     	for (int i=0; i<N ; i++)
     		for (int j=0; j<N; j++) {
-     			if (tiles[i][j] != 0 && tiles[i][j] != j * N + i + 1)
+     			if (tiles[i][j] != 0 && tiles[i][j] != i * N + j + 1)
     				count++;
     		}
     	return count;
     }
     public int manhattan() {
     	// sum of Manhattan distances between blocks and goal
+
     	int count = 0;
     	for (int i=0; i<N ; i++)
     		for (int j=0; j<N; j++) 
-    			if (tiles[i][j] != 0 && tiles[i][j] != j * N + i + 1) {
+    			if (tiles[i][j] != 0 && tiles[i][j] != i * N + j + 1) {
     				//find index of requested value
     				//then add the difference of the indexes of the requested value
     				//to count
     				int value = tiles[i][j];
-    		       	int[] ind = new int[2];
-    				ind = findIndices(value);
-    				count += Math.abs(ind[0] - i) + Math.abs(ind[1] - j);
+    				int b = (value - 1) % N;
+    				int a = (value - 1) / N;
+    				count += Math.abs(a - i) + Math.abs(b - j);
     			}
     	return count;
     }
@@ -68,7 +69,7 @@ public class Board {
        	return ind;
     }
     public boolean isGoal() {
-    	// is this board the goal board?
+    	// is this board the goal board? can make use of goal...
     	for (int i=0; i<N ; i++)
     		for (int j=0; j<N; j++){
     			if( i == N-1 && j == N-1)
@@ -78,19 +79,17 @@ public class Board {
     		}
     	return true;
     }
-    public Board twin() { //this won't work if one of these values is 0, which is what happens in puzzle5
+    public Board twin() { 
     	// a board that is obtained by exchanging two adjacent blocks in the same row
     	Board twin = new Board((int[][])tiles);
-    	if (tiles[0][0] != 0 && tiles[1][0] != 0) {
-    		int swap = twin.tiles[0][0];
-    		twin.tiles[0][0] = twin.tiles[1][0];
-    		twin.tiles[1][0] = swap;
-    	}
-    	else {
-    		int swap = twin.tiles[0][1];
-    		twin.tiles[0][1] = twin.tiles[1][1];
-    		twin.tiles[1][1] = swap;   		
-    	}
+    	int col = 0;
+    	if (tiles[0][0] == 0 || tiles[0][1] == 0)
+    		col = 1;
+
+    	int swap = twin.tiles[col][0];
+    	twin.tiles[col][0] = twin.tiles[col][1];
+    	twin.tiles[col][1] = swap;
+    	
     	return twin;
     }
     public boolean equals(Object y) {
@@ -170,6 +169,26 @@ public class Board {
 
     public static void main(String[] args) {
     	// unit tests (not graded)
+    	
+    	// create initial board from file
+    	In in = new In("8Puzzle\\puzzle05.txt");
+    	int N = in.readInt();
+    	int[][] blocks = new int[N][N];
+    	for (int i = 0; i < N; i++)
+    		for (int j = 0; j < N; j++)
+    			blocks[i][j] = in.readInt();
+    	Board initial = new Board(blocks);
+
+    	System.out.println("Hamming distance = " + initial.hamming());
+    	System.out.println("Manhattan distance = " + initial.manhattan());
+    	
+    	System.out.println("original");
+    	System.out.println(initial);
+    	
+    	Board twin = initial.twin();
+    	System.out.println("twin:");
+    	System.out.println(twin);
+    	
     	
     	
     }

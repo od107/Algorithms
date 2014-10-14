@@ -112,6 +112,10 @@ public class Solver {
     }
     public Iterable<Board> solution() {
     	// sequence of boards in a shortest solution; null if unsolvable
+    	
+    	if (!solveable)
+    		return null;
+    	
     	LinkedList<Board> sequence = new LinkedList<Board>();
     	
     	Node actual = solution;
