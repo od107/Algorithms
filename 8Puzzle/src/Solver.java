@@ -1,17 +1,9 @@
 import java.util.LinkedList;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-
 
 public class Solver {
 	
-//	ArrayList<Node> solution = new ArrayList<Node>();
 	private boolean solveable = false;
-//	ArrayList<Board> bsol = new ArrayList<Board>();
 	private Node solution = null;
-
 	
 	private class Node implements Comparable<Node>{
 		public int moves;
@@ -24,7 +16,7 @@ public class Solver {
 			moves = 0;
 			this.board = board;
 			prevNode = null;
-			priority = board.manhattan() + moves; // does manhattan heuristic even work?
+			priority = board.manhattan() + moves; 
 		}
 		
 		public Node(Board board, Node previous){
@@ -56,23 +48,21 @@ public class Solver {
     	que.insert(actual);
     	altque.insert(twin);
      	
-    	while (true) { //!que.isEmpty() && !altque.isEmpty()) { // is this necessary?
+    	while (true) { 
         	actual = que.delMin(); 
         	twin = altque.delMin();
     		
-    		Iterable<Board> neighbours = new ArrayList<Board>();
-    		neighbours = actual.board.neighbors();
-    		Iterable<Board> altneighbours = new ArrayList<Board>();
-    		altneighbours = twin.board.neighbors();
+    		Iterable<Board> neighbours = actual.board.neighbors();
+    		Iterable<Board> altneighbours = twin.board.neighbors();
 
     		for(Board neighbour : neighbours) { 
-    			if(!neighbour.equals(actual.prevNode)) {
+    			if(actual.prevNode == null || !neighbour.equals(actual.prevNode.board)) {
     				Node node = new Node(neighbour, actual);
     				que.insert(node);
     			}
     		}
     		for(Board neighbour : altneighbours) { 
-    			if(!neighbour.equals(twin.prevNode)) {
+    			if(twin.prevNode == null || !neighbour.equals(twin.prevNode.board)) {
     				Node node = new Node(neighbour, twin);
     				altque.insert(node);
     			}
@@ -106,7 +96,6 @@ public class Solver {
         	}
         	return count;
     	}
-//    		return solution.size();
     	else
     		return -1;
     }
@@ -116,14 +105,15 @@ public class Solver {
     	if (!solveable)
     		return null;
     	
-    	LinkedList<Board> sequence = new LinkedList<Board>();
+    	Stack<Board> sequence = new Stack<Board>();
     	
     	Node actual = solution;
+       	sequence.push(actual.board);
     	
-    	while(actual.prevNode != null) {
-        	sequence.add(actual.board);
+       	while(actual.prevNode != null)  {
         	actual = actual.prevNode;
-    	}
+        	sequence.push(actual.board);
+    	} 
 
     	return sequence;
     }

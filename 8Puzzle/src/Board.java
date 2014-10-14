@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Board {
 	
 	private final int N;
-	private final int[][] tiles; //change to short to save space
+	private final int[][] tiles; //future improvement: change to short to save space
 	
     public Board(int[][] blocks) {
     	// construct a board from an N-by-N array of blocks
@@ -118,8 +118,7 @@ public class Board {
     }
     public Iterable<Board> neighbors() { //could also return list but is against API
     	// all neighboring boards
-       	int[] ind = new int[2];
-       	ind = findIndices(0);
+       	int[] ind = findIndices(0);
        	int a = ind[0];
        	int b = ind[1];
        	
