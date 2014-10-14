@@ -36,39 +36,56 @@ public class Solver {
 		}
 		
 		public int compareTo(Node that){
-			return (this.priority - that.priority);
-//			if(this.priority < that.priority)
-//				return -1;
-//			if(this.priority > that.priority)
-//				return 1;
-//			else
-//				return 0;
+//			return (this.priority - that.priority);
+			if(this.priority < that.priority)
+				return -1;
+			if(this.priority > that.priority)
+				return 1;
+			else
+				return 0;
 		}
 	}
 	
-    public Solver(Board initial) { //no detection for non-solveable boards yet
+    public Solver(Board initial) { 
     	// find a solution to the initial board (using the A* algorithm)
     	MinPQ<Node> que = new MinPQ<Node>();
+    	MinPQ<Node> altque = new MinPQ<Node>();
     	
     	Node actual = new Node(initial);
+    	Node twin = new Node(initial.twin());
     	que.insert(actual);
+    	altque.insert(twin);
      	
-    	while (!que.isEmpty()) {
+    	while (true) { //!que.isEmpty() && !altque.isEmpty()) { // is this necessary?
         	actual = que.delMin(); 
+        	twin = altque.delMin();
     		
     		Iterable<Board> neighbours = new ArrayList<Board>();
     		neighbours = actual.board.neighbors();
+    		Iterable<Board> altneighbours = new ArrayList<Board>();
+    		altneighbours = twin.board.neighbors();
 
-    		for(Board neighbour : neighbours) { // this allows going back and forth if heuristic is wrong
+    		for(Board neighbour : neighbours) { 
     			if(!neighbour.equals(actual.prevNode)) {
     				Node node = new Node(neighbour, actual);
     				que.insert(node);
+    			}
+    		}
+    		for(Board neighbour : altneighbours) { 
+    			if(!neighbour.equals(twin.prevNode)) {
+    				Node node = new Node(neighbour, twin);
+    				altque.insert(node);
     			}
     		}
     		
     		if(actual.board.isGoal()){
     			solveable = true;
     			solution = actual;
+    			break;
+    		}
+    		if(twin.board.isGoal()){ 
+    			solveable = false; //redundant
+    			solution = null;
     			break;
     		}
     	} 

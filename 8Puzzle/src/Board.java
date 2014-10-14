@@ -78,17 +78,23 @@ public class Board {
     		}
     	return true;
     }
-    public Board twin() {
+    public Board twin() { //this won't work if one of these values is 0, which is what happens in puzzle5
     	// a board that is obtained by exchanging two adjacent blocks in the same row
     	Board twin = new Board((int[][])tiles);
-    	int swap = twin.tiles[0][0];
-    	twin.tiles[0][0] = twin.tiles[0][1];
-    	twin.tiles[0][1] = swap;
+    	if (tiles[0][0] != 0 && tiles[1][0] != 0) {
+    		int swap = twin.tiles[0][0];
+    		twin.tiles[0][0] = twin.tiles[1][0];
+    		twin.tiles[1][0] = swap;
+    	}
+    	else {
+    		int swap = twin.tiles[0][1];
+    		twin.tiles[0][1] = twin.tiles[1][1];
+    		twin.tiles[1][1] = swap;   		
+    	}
     	return twin;
     }
     public boolean equals(Object y) {
     	// does this board equal y?
-    	// here we also need some other statements
     	
     	if (y == this)
     		return true;
