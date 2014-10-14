@@ -122,15 +122,25 @@ public class Board {
 //       	arraylist will do
        	
        	ArrayList<Board> list = new ArrayList<Board>();
-//       	Board current = this;
-       	if (a > 0) 
-       		list.add(move(this, a, b, a-1, b)); //the problem is that "this" gets actually changed in the process
-       	if (a < N-1)							//which is not what we want
-       		list.add(move(this, a, b, a+1, b));
-       	if (b > 0)
-       		list.add(move(this, a, b, a, b-1));
-       	if (b < N-1)
-       		list.add(move(this, a, b, a, b+1));
+       	
+       	Board copy;
+       	
+       	if (a > 0) {
+       		copy = new Board(tiles);
+       		list.add(move(copy, a, b, a-1, b)); 
+       	}
+       	if (a < N-1) {
+       		copy = new Board(tiles);
+       		list.add(move(copy, a, b, a+1, b));
+       	}
+       	if (b > 0) {
+       		copy = new Board(tiles);
+       		list.add(move(copy, a, b, a, b-1));
+       	}
+       	if (b < N-1) {
+       		copy = new Board(tiles);
+       		list.add(move(copy, a, b, a, b+1));
+       	}
        	return list;
     }
     
@@ -139,7 +149,7 @@ public class Board {
     	bord.tiles[xn][yn] = 0;
     	return bord;
     }
-
+    
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(N + "\n");

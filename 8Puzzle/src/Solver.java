@@ -10,7 +10,7 @@ public class Solver {
 //	ArrayList<Node> solution = new ArrayList<Node>();
 	private boolean solveable = false;
 //	ArrayList<Board> bsol = new ArrayList<Board>();
-	Node solution = null;
+	private Node solution = null;
 
 	
 	private class Node implements Comparable<Node>{
@@ -24,27 +24,29 @@ public class Solver {
 			moves = 0;
 			this.board = board;
 			prevNode = null;
-			priority = board.manhattan() + moves;
+			priority = board.manhattan() + moves; // does manhattan heuristic even work?
 		}
 		
 		public Node(Board board, Node previous){
-			moves = previous.moves++;
+			moves = previous.moves + 1;
 			this.board = board;
 			prevNode = previous;
 			priority = board.manhattan() + moves;
+			assert priority >= previous.priority;
 		}
 		
 		public int compareTo(Node that){
-			if(this.priority < that.priority)
-				return -1;
-			if(this.priority > that.priority)
-				return 1;
-			else
-				return 0;
+			return (this.priority - that.priority);
+//			if(this.priority < that.priority)
+//				return -1;
+//			if(this.priority > that.priority)
+//				return 1;
+//			else
+//				return 0;
 		}
 	}
 	
-    public Solver(Board initial) {
+    public Solver(Board initial) { //no detection for non-solveable boards yet
     	// find a solution to the initial board (using the A* algorithm)
     	MinPQ<Node> que = new MinPQ<Node>();
     	
@@ -57,15 +59,12 @@ public class Solver {
     		Iterable<Board> neighbours = new ArrayList<Board>();
     		neighbours = actual.board.neighbors();
 
-    		for(Board neighbour : neighbours) {
-    			if(neighbour.equals(actual.prevNode))
-    				continue;
-    			Node node = new Node(neighbour, actual);
-    			que.insert(node);
+    		for(Board neighbour : neighbours) { // this allows going back and forth if heuristic is wrong
+    			if(!neighbour.equals(actual.prevNode)) {
+    				Node node = new Node(neighbour, actual);
+    				que.insert(node);
+    			}
     		}
-  
-//    		bsol.add(actual.board);
-    		
     		
     		if(actual.board.isGoal()){
     			solveable = true;
