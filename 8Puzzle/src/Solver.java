@@ -1,5 +1,3 @@
-import java.util.LinkedList;
-
 public class Solver {
 	
 	private boolean solveable = false;
