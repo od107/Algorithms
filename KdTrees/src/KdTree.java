@@ -125,9 +125,7 @@ public class KdTree {
 
 	public  boolean contains(Point2D p) {
 		// does the set contain point p? 
-		Node n = root;
-		boolean lr = true;
-		return search(n, p, lr);
+		return search(root, p, true);
 	}
 
 	private boolean search(Node n, Point2D p, boolean lr) {
@@ -137,17 +135,16 @@ public class KdTree {
 			return true;
 		if (lr) {
 			if (p.x() < n.p.x())
-				search (n.lb, p, !lr);
+				return search (n.lb, p, !lr);
 			else
-				search (n.rt, p, !lr); 
+				return search (n.rt, p, !lr); 
 		}
 		else {
 			if (p.y() < n.p.y())
-				search (n.lb, p, !lr);
+				return search (n.lb, p, !lr);
 			else
-				search (n.rt, p, !lr); 
+				return search (n.rt, p, !lr); 
 		}
-		return false;
 	}
 
 	public void draw() {
@@ -242,14 +239,14 @@ public class KdTree {
 
 	public static void main(String[] args) {
 		// unit testing of the methods (optional) 
-		int nbr = 5;
+		int nbr = 1000;
 		
 		KdTree kd = new KdTree();
 		PointSET set = new PointSET();
 		TreeSet<Point2D> reference = new TreeSet<Point2D>();
 		
 		if(!set.isEmpty() || !kd.isEmpty())
-			System.out.println("Problem in the empty method");
+			System.out.println("Problem in the empty() method");
 		
 		for (int i=0;i<nbr;i++) {
 			Point2D point = randomPoint();
@@ -265,29 +262,29 @@ public class KdTree {
 			System.out.println("size set: " + set.size());
 		}
 		
-		for (Point2D p : reference) {
+		for (Point2D p : reference) { // problem in insert or in contains?
 			if (!set.contains(p))
 				System.out.println("point: " + p + " is not contained in the set");
 			if(!kd.contains(p))
 				System.out.println("point: " + p + " is not contained in the kdtree");
 		}
 		
-//		for (int i=0 ; i<100 ; i++) {
-//			Point2D p = randomPoint();
-//			if(set.nearest(p) != kd.nearest(p))
-//				System.out.println("problem in the nearest() method");
-//		}
-//		
-//		for (int i=0 ; i<100 ; i++) {
-//			RectHV rect = randomRect();
-//			Iterable<Point2D> setContained = set.range(rect);
-//			Iterable<Point2D> kdContained = kd.range(rect);
-//			for (Point2D point : setContained)
-//				if(!kd.contains(point))
-//					System.out.println("point: " + point + " exist in set but not in kd");
-//			for (Point2D point : kdContained)
-//				if(!set.contains(point))
-//					System.out.println("point: " + point + " exist in kd but not in set");			
-//		}
+		for (int i=0 ; i<100 ; i++) {
+			Point2D p = randomPoint();
+			if(set.nearest(p) != kd.nearest(p))
+				System.out.println("problem in the nearest() method");
+		}
+		
+		for (int i=0 ; i<100 ; i++) {
+			RectHV rect = randomRect();
+			Iterable<Point2D> setContained = set.range(rect);
+			Iterable<Point2D> kdContained = kd.range(rect);
+			for (Point2D point : setContained)
+				if(!kd.contains(point))
+					System.out.println("point: " + point + " exist in set but not in kd");
+			for (Point2D point : kdContained)
+				if(!set.contains(point))
+					System.out.println("point: " + point + " exist in kd but not in set");			
+		}
 	}
 }
