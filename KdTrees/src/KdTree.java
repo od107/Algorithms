@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 
 public class KdTree {
@@ -35,18 +36,19 @@ public class KdTree {
 	}
 	public int size()  {
 		// number of points in the set 
-		int count = 0;
-		return subsize(root, count);
+		return subsize(root);
 	}
 
-	private int subsize(Node n, int count) {
-		while (n != null) {
+	private int subsize(Node n) {
+		int count = 0;
+		if (n != null) {
 			if(n.lb != null) {
-				count = count + subsize(n.lb, count);
+				count = count + subsize(n.lb);
 			}
 			if(n.rt != null) {
-				count = count + subsize(n.rt, count);
+				count = count + subsize(n.rt);
 			}
+			count++;
 		}
 		return count;
 	}
@@ -155,22 +157,23 @@ public class KdTree {
 	}
 	
 	private void draw(Node n) {
-		while (n != null) {
-			n.p.draw();
+		n.p.draw();
+		n.rect.draw();
+		if(n.lb != null) {
 			draw(n.lb);
-			draw(n.rt);
 		}
+		if(n.rt != null) {
+			draw(n.rt);
+		}				
 	}
 	
-	public Iterable<Point2D> range(RectHV rect) {
+	public Iterable<Point2D> range(RectHV rect) { // more correct to use a set
 		// all points that are inside the rectangle 
 		if(isEmpty())
 			return null;
 		
-		// TODO
 		ArrayList<Point2D> list = new ArrayList<Point2D>();
-		boolean lr = false;
-		list = contains(list, rect, root, lr);
+		list = contains(list, rect, root, true);
 		
 		return list;
 	}
@@ -178,6 +181,7 @@ public class KdTree {
 	private ArrayList<Point2D> contains(ArrayList<Point2D> list, RectHV rect, Node n, boolean lr){
 		if (rect.contains(n.p))
 			list.add(n.p);
+		
 		if(lr) {
 			if (n.lb != null && n.p.x() > rect.xmin()) //rect to the left, search left searchtree
 				list = contains(list, rect, n.lb, !lr);
@@ -219,9 +223,71 @@ public class KdTree {
     	
     	return nearest;
 	}
+	
+	private static Point2D randomPoint() {
+		double x = StdRandom.uniform();
+		double y = StdRandom.uniform();
+		return new Point2D(x, y);
+	}
+	
+	private static RectHV randomRect() {
+		double x1 = StdRandom.uniform();
+		double x2 = StdRandom.uniform(x1,1);
+		double y1 = StdRandom.uniform();
+		double y2 = StdRandom.uniform(y1,1);
+		
+		return new RectHV(x1, y1, x2, y2);
+	}
+	
 
 	public static void main(String[] args) {
 		// unit testing of the methods (optional) 
-
+		int nbr = 5;
+		
+		KdTree kd = new KdTree();
+		PointSET set = new PointSET();
+		TreeSet<Point2D> reference = new TreeSet<Point2D>();
+		
+		if(!set.isEmpty() || !kd.isEmpty())
+			System.out.println("Problem in the empty method");
+		
+		for (int i=0;i<nbr;i++) {
+			Point2D point = randomPoint();
+			kd.insert(point);
+			set.insert(point);
+			reference.add(point);
+		}
+		
+		if(kd.size() == set.size())
+			System.out.println("sizes match");
+		else {
+			System.out.println("size kd: " + kd.size());
+			System.out.println("size set: " + set.size());
+		}
+		
+		for (Point2D p : reference) {
+			if (!set.contains(p))
+				System.out.println("point: " + p + " is not contained in the set");
+			if(!kd.contains(p))
+				System.out.println("point: " + p + " is not contained in the kdtree");
+		}
+		
+//		for (int i=0 ; i<100 ; i++) {
+//			Point2D p = randomPoint();
+//			if(set.nearest(p) != kd.nearest(p))
+//				System.out.println("problem in the nearest() method");
+//		}
+//		
+//		for (int i=0 ; i<100 ; i++) {
+//			RectHV rect = randomRect();
+//			Iterable<Point2D> setContained = set.range(rect);
+//			Iterable<Point2D> kdContained = kd.range(rect);
+//			for (Point2D point : setContained)
+//				if(!kd.contains(point))
+//					System.out.println("point: " + point + " exist in set but not in kd");
+//			for (Point2D point : kdContained)
+//				if(!set.contains(point))
+//					System.out.println("point: " + point + " exist in kd but not in set");			
+//		}
 	}
 }
