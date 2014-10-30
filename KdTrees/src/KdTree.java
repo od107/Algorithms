@@ -221,16 +221,15 @@ public class KdTree {
 	}
 	
 	private Point2D nearest(Node node, Point2D p , Point2D nearest) {
-		//TODO in order for this to work the rectangle needs to work
 		if(node.p.distanceSquaredTo(p) < nearest.distanceSquaredTo(p))	
 			//If the distance from the node point is smaller than nearest found
 			nearest = node.p;
 		
-		if(node.lb != null && node.lb.rect.distanceSquaredTo(p) < nearest.distanceSquaredTo(p)) //node.p.distanceSquaredTo(p)){	
+		if(node.lb != null && node.lb.rect.distanceSquaredTo(p) < nearest.distanceSquaredTo(p))	
 			//If the distance from the nodes left child rect is smaller
     		nearest = nearest(node.lb, p, nearest);
     	
-    	if(node.rt != null && node.rt.rect.distanceSquaredTo(p) < nearest.distanceSquaredTo(p)) //node.p.distanceSquaredTo(p))	
+    	if(node.rt != null && node.rt.rect.distanceSquaredTo(p) < nearest.distanceSquaredTo(p))	
     		// if the distance from the nodes right child rect is smaller
     		nearest = nearest(node.rt, p , nearest);
     	
@@ -263,9 +262,9 @@ public class KdTree {
 
 	public static void main(String[] args) {
 		// unit testing of the methods (optional) 
-		boolean fileinput = true;
+		boolean fileinput = false;
         String filename = "testing\\input5.txt";
-		int nbr = 10;
+		int nbr = 100000;
        	
 		KdTree kd = new KdTree();
 		PointSET set = new PointSET();
@@ -312,18 +311,23 @@ public class KdTree {
 		
 //		kd.nearest(new Point2D(.81,.30));
 		
+		Stopwatch nearesttime = new Stopwatch();
+		
 		for (int i=0 ; i<100 ; i++) {
 			Point2D p = randomPoint();
 			if(!set.nearest(p).equals(kd.nearest(p)))
 				System.out.println("problem in the nearest() method");
-			p.draw();
+//			p.draw();
 		}
+		System.out.println("Time to verify 100 random nearest points = " + nearesttime.elapsedTime());
+		
+		Stopwatch rangetime = new Stopwatch();
 		
 		for (int i=0 ; i<100 ; i++) {
 			RectHV rect = randomRect();
 			Iterable<Point2D> setContained = set.range(rect);
 			Iterable<Point2D> kdContained = kd.range(rect);
-			rect.draw();
+//			rect.draw();
 			for (Point2D point : setContained)
 				if(!kd.contains(point))
 					System.out.println("point: " + point + " exist in set but not in kd");
@@ -331,5 +335,7 @@ public class KdTree {
 				if(!set.contains(point))
 					System.out.println("point: " + point + " exist in kd but not in set");			
 		}
+		
+		System.out.println("Time to verify contents of 100 random rectangles = " + rangetime.elapsedTime());
 	}
 }
