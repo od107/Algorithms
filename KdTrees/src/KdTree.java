@@ -4,6 +4,7 @@ import java.util.TreeSet;
 
 public class KdTree {
 	private Node root;
+	private int size;
 
 	private static class Node {
 		private Point2D p;      // the point
@@ -23,7 +24,8 @@ public class KdTree {
 
 	public KdTree() {
 		// construct an empty set of points 
-		root = null; 
+		root = null;
+		size = 0;
 	}
 	public boolean isEmpty() {
 		// is the set empty? 
@@ -31,7 +33,7 @@ public class KdTree {
 	}
 	public int size()  {
 		// number of points in the set 
-		return subsize(root);
+		return size;//subsize(root);
 	}
 
 	private int subsize(Node n) {
@@ -97,6 +99,7 @@ public class KdTree {
 			else
 				parent.rt = newNode;
 		}
+		size++;
 		assert contains(p);
 	}
 	
