@@ -53,6 +53,8 @@ public class KdTree {
 	public void insert(Point2D p) {
 		// add the point to the set (if it is not already in the set)
 		assert !contains(p);
+		if (contains(p))
+			return;
 		
 		if (root == null) {
 			root = new Node(p, new RectHV(0,0,1,1));
@@ -200,15 +202,15 @@ public class KdTree {
 			list.add(n.p);
 		
 		if(lr) {
-			if (n.lb != null && n.p.x() > rect.xmin()) //rect to the left, search left searchtree
+			if (n.lb != null && n.p.x() >= rect.xmin()) //rect to the left, search left searchtree
 				list = contains(list, rect, n.lb, !lr);
-			if (n.rt != null && n.p.x() < rect.xmax()) // search right subtree
+			if (n.rt != null && n.p.x() <= rect.xmax()) // search right subtree
 				list = contains(list, rect, n.rt, !lr);
 		}
 		else {
-			if (n.lb != null && n.p.y() > rect.ymin())
+			if (n.lb != null && n.p.y() >= rect.ymin())
 				list = contains(list, rect, n.lb, !lr);
-			if (n.rt != null && n.p.y() < rect.ymax())
+			if (n.rt != null && n.p.y() <= rect.ymax())
 				list = contains(list, rect, n.rt, !lr);
 		}
 		return list;
